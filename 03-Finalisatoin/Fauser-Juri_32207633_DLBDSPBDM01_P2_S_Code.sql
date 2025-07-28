@@ -66,7 +66,7 @@ CREATE TABLE User (
 -- user_id is both the Primary Key and a Foreign Key referencing User.user_id
 -- ================================================================================================================
 CREATE TABLE Administrator (
-  admin_id CHAR(36) NOT NULL, -- References User.user_id
+  admin_id CHAR(36) NOT NULL Unique, -- References User.user_id
   admin_role ENUM('reader', 'writer') NOT NULL DEFAULT 'reader', -- Adminspecific role
   CONSTRAINT pk_admin_user PRIMARY KEY (admin_id), -- Primary Key constraint
   CONSTRAINT fk_admin_user -- Foreign Key constraint to ensure admin_id references user_id in User table
@@ -82,7 +82,7 @@ CREATE TABLE Administrator (
 -- user_id is both the Primary Key and a Foreign Key referencing User.user_id
 -- ================================================================================================================
 CREATE TABLE Guest (
-  guest_id CHAR(36) NOT NULL, -- References User.user_id
+  guest_id CHAR(36) NOT NULL Unique, -- References User.user_id
   membership_tier ENUM('free', 'premium') NOT NULL DEFAULT 'free', -- Guestspecific membership tier
   CONSTRAINT pk_guest_user PRIMARY KEY (guest_id), -- Primary Key constraint
   CONSTRAINT fk_guest_user -- Foreign Key constraint to ensure guest_id references user_id in User table
@@ -98,7 +98,7 @@ CREATE TABLE Guest (
 -- user_id is both the Primary Key and a Foreign Key referencing User.user_id
 -- ================================================================================================================
 CREATE TABLE Host (
-  host_id CHAR(36) NOT NULL, -- References User.user_id
+  host_id CHAR(36) NOT NULL Unique, -- References User.user_id
   host_tier ENUM('regular', 'prime') NOT NULL DEFAULT 'regular', -- Hostspecific tier
   CONSTRAINT pk_host_user PRIMARY KEY (host_id), -- Primary Key constraint
   CONSTRAINT fk_host_user -- Foreign Key constraint to ensure host_id references user_id in User table
@@ -500,8 +500,8 @@ CREATE TABLE Payout (
 CREATE TABLE Payment (
   payment_id CHAR(36) NOT NULL DEFAULT (UUID()), -- Primary Key
   payment_method_id CHAR(36) NOT NULL, -- Method of payout (e.g., bank transfer, PayPal)
-  referral_id CHAR(36) NULL, -- Optional Foreign Key referencing UserReferral (Payment related to a referral bonus)
-  booking_id CHAR(36) NOT NULL, -- Optional Foreign Key referencing Booking (Payment for a booking)
+  referral_id CHAR(36) NULL Unique, -- Optional Foreign Key referencing UserReferral (Payment related to a referral bonus)
+  booking_id CHAR(36) NOT NULL Unique, -- Foreign Key referencing Booking (Payment for a booking)
   amount DECIMAL(10,2) NOT NULL, -- Payment amount (Increased precision)
   payment_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Date of the payment
   payment_status ENUM('completed', 'pending', 'failed', 'refunded') NOT NULL DEFAULT 'pending', -- Payment status (Added refunded)
