@@ -108,7 +108,6 @@ CREATE TABLE Host (
     ON UPDATE CASCADE -- If a User.user_id is updated, the corresponding Host.user_id is updated
 );
 
-
 -- ================================================================================================================
 -- Table: UserReferral
 -- Description: Tracks user referrals
